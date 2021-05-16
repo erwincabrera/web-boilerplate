@@ -5,7 +5,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(common, {
   mode: "production",
-  devtool: "source-map",
   module: {
     rules: [
       {
@@ -18,7 +17,21 @@ module.exports = merge(common, {
             },
           },
           "css-loader",
-          "postcss-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env",
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
+            },
+          },
           "sass-loader",
         ],
       },
@@ -26,6 +39,10 @@ module.exports = merge(common, {
   },
   plugins: [new MiniCssExtractPlugin()],
   optimization: {
-    minimizer: ["...", new CssMinimizerPlugin()],
+    minimizer: [
+      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+      // `...`,
+      new CssMinimizerPlugin(),
+    ],
   },
 });

@@ -1,4 +1,5 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
@@ -8,15 +9,7 @@ module.exports = {
   },
   output: {
     filename: "[name].bundle.js",
-    path: path.resolve(__dirname, "dist"),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
-      },
-    ],
+    path: path.resolve(__dirname, "../dist"),
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -25,5 +18,6 @@ module.exports = {
       template: "./src/index.html",
       minify: true,
     }),
+    new webpack.ProgressPlugin(),
   ],
 };
